@@ -1,0 +1,6 @@
+[user]
+name = Jon Wood
+email = jon@blankpad.net
+
+[core]
+excludesfile = /home/jon/.gitignore_global
