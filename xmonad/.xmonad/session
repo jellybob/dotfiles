@@ -1,1 +1,4 @@
 setxkbmap gb
+synclient VertScrollDelta=-94 HorizScrollDelta=-94 TapButton1=1 TapButton2=3 TapButton3=2 HorizTwoFingerScroll=1 LockedDrags=1 PalmDetect=1
+syndaemon -i 0.25 -k -d
+xsetroot -solid black

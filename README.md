@@ -9,4 +9,5 @@ into your home directory.
 
 ### Fedora
 
-`dnf install stow powerline git neovim`
+`dnf install stow git vim`
+`pip3 install powerline`

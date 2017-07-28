@@ -4,3 +4,7 @@ email = jon@blankpad.net
 
 [core]
 excludesfile = /home/jon/.gitignore_global
+[init]
+	templatedir = ~/.git_template
+[alias]
+	ctags = !.git/hooks/ctags
