@@ -2,6 +2,7 @@
 set nocompatible
 filetype off
 let mapleader="\<Space>"
+set shell=/bin/bash
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
