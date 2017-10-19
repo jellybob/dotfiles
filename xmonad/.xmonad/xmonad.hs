@@ -21,6 +21,7 @@ import XMonad.Layout.SimpleFloat
 import XMonad.Prompt
 import XMonad.Prompt.Shell
 import XMonad.Prompt.Window
+import XMonad.Prompt.Pass
 import XMonad.StackSet as W
 import XMonad.Util.Loggers
 import XMonad.Util.Run
@@ -57,6 +58,8 @@ myXPConfig = defaultXPConfig
 myKeys conf@(XConfig {modMask = modm}) = M.fromList $
   [
     ((modm, xK_p), shellPrompt myXPConfig),
+    ((modm .|. shiftMask, xK_p), passPrompt myXPConfig),
+    ((modm .|. shiftMask .|. controlMask, xK_p), passGeneratePrompt myXPConfig),
     ((modm .|. shiftMask, xK_r), renameWorkspace myXPConfig),
     ((modm .|. shiftMask, xK_d), namedScratchpadAction scratchpads "Daylog"),
     ((modm .|. shiftMask, xK_e), namedScratchpadAction scratchpads "Enpass"),
