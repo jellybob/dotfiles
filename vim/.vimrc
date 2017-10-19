@@ -25,6 +25,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'jgdavey/vim-blockle'
 Plugin 'hashivim/vim-terraform'
+Plugin 'leafgarland/typescript-vim'
 call vundle#end()
 filetype plugin indent on
 
@@ -58,6 +59,7 @@ nmap <Leader>p "+p
 nmap <Leader>P "+P
 vmap <Leader>p "+p
 vmap <Leader>P "+P
+imap jk <Esc>
 
 syntax on
 set autoindent
