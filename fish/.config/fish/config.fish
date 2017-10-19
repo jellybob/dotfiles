@@ -13,4 +13,3 @@ stty -ixon
 
 alias git="hub"
 alias gs="git status"
-alias neos-ssh="tsh --proxy=ssh.eu-west-2.neos.co.uk --user=jon ssh"
