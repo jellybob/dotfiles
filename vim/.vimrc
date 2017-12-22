@@ -31,14 +31,6 @@ Plugin 'easymotion/vim-easymotion'
 call vundle#end()
 filetype plugin indent on
 
-" Configure Powerline
-python3 from powerline.vim import setup as powerline_setup
-python3 powerline_setup()
-python3 del powerline_setup
-
-" Ensure Powerline is always visible
-set laststatus=2
-
 " Configure editorconfig
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 
