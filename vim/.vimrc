@@ -47,6 +47,14 @@ autocmd FileType terraform setlocal commentstring=#%s
 " Aliases
 nnoremap <Leader>o :CtrlPMixed<CR>
 nnoremap <Leader>s :w<CR>
+nnoremap <c-N> :GitGutterNextHunk<CR>
+nnoremap <c-P> :GitGutterPrevHunk<CR>
+nnoremap <c-U> :GitGutterUndoHunk<CR>
+
+" Keep blocks selected when indenting
+vnoremap < <gv
+vnoremap > >gv
+
 vmap <Leader>y "+y
 vmap <Leader>d "+d
 nmap <Leader>p "+p
@@ -62,6 +70,10 @@ set expandtab
 set tabstop=2
 set mouse=a " Full mouse support
 set hidden " Don't force buffers to be saved
+set listchars=tab:>-,trail:·
+set list
+match ErrorMsg '\%>80v.\+' " Highlight long lines
+match ErrorMsg '\s\+$'     " Highlight trailing whitespace
 
 set directory=~/.local/vim/swapfiles//
 set backupdir=~/.local/vim/backups//
