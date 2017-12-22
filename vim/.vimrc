@@ -26,6 +26,8 @@ Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'jgdavey/vim-blockle'
 Plugin 'hashivim/vim-terraform'
 Plugin 'leafgarland/typescript-vim'
+Plugin 'elixir-editors/vim-elixir'
+Plugin 'easymotion/vim-easymotion'
 call vundle#end()
 filetype plugin indent on
 
