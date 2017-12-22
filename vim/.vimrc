@@ -1,7 +1,7 @@
 " Configure Vundle
 set nocompatible
 filetype off
-let mapleader="\<Space>"
+let mapleader=","
 set shell=/bin/bash
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
