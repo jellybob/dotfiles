@@ -1,15 +1,11 @@
-source ~/.config/fish/powerline.fish
-
 set -gx PATH /home/jon/bin $PATH
+set -gx GIT_TEMPLATE_DIR (overcommit --template-dir)
 eval (direnv hook fish)
-
-# Check if a key needs adding
-if ssh-add -L | grep "no identities" > /dev/null
-  ssh-add
-end
 
 # Fixes SSH jumps
 stty -ixon
 
 alias git="hub"
 alias gs="git status"
+
+set -x GPG_TTY (tty)

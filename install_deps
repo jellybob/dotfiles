@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+dnf install stow git vim
+pip3 install powerline
+gem install overcommit

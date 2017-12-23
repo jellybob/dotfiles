@@ -7,6 +7,7 @@ import Graphics.X11.ExtraTypes.XF86
 import XMonad
 import XMonad.Actions.CycleWS
 import XMonad.Actions.WorkspaceNames
+import XMonad.Actions.WindowBringer
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ICCCMFocus
@@ -30,15 +31,14 @@ import XMonad.Util.NamedScratchpad
 
 main :: IO ()
 main = do
-  statusline <- spawnPipe lemonbar
-  powerline <- spawnPipe powerline
-  xmonad $ fullscreenSupport $ defaultConfig
+  xmobar <- spawnPipe "xmobar"
+  xmonad $ docks $ fullscreenSupport $ defaultConfig
     { terminal = myTerminal
     , layoutHook = myLayout
     , handleEventHook = myEventHook
     , manageHook = manageDocks <+> namedScratchpadManageHook scratchpads <+> myManageHook
     , modMask = modMask'
-    , logHook = myLogHook statusline
+    , logHook = myLogHook xmobar
     , focusedBorderColor = "#268bd2"
     , keys = \c -> myKeys c `M.union` keys defaultConfig c }
 
@@ -58,14 +58,12 @@ myXPConfig = defaultXPConfig
 myKeys conf@(XConfig {modMask = modm}) = M.fromList $
   [
     ((modm, xK_p), shellPrompt myXPConfig),
-    ((modm .|. shiftMask, xK_p), passPrompt myXPConfig),
-    ((modm .|. shiftMask .|. controlMask, xK_p), passGeneratePrompt myXPConfig),
     ((modm .|. shiftMask, xK_r), renameWorkspace myXPConfig),
+    ((modm, xK_w), gotoMenuArgs ["-fn", "'Fira Code Medium-16'", "-b"]),
     ((modm .|. shiftMask, xK_d), namedScratchpadAction scratchpads "Daylog"),
-    ((modm .|. shiftMask, xK_e), namedScratchpadAction scratchpads "Enpass"),
     ((modm .|. shiftMask, xK_s), namedScratchpadAction scratchpads "Scratch Terminal"),
-    ((modm .|. shiftMask, xK_l), unsafeSpawn "xlock -mode blank"),
-    ((modm .|. shiftMask, xK_n), unsafeSpawn "/home/jon/bin/play-neocam"),
+    ((modm .|. shiftMask, xK_l), unsafeSpawn "xlock -mode blank & systemctl suspend"),
+    ((modm .|. shiftMask, xK_t), sendMessage ToggleStruts),
     ((modm, xK_u), prevScreen),
     ((modm .|. shiftMask, xK_u), shiftPrevScreen >> prevScreen),
     ((modm, xK_i), nextScreen),
@@ -80,19 +78,13 @@ myKeys conf@(XConfig {modMask = modm}) = M.fromList $
 -- Named Scratchpads
 scratchpads = 
   [
-    NS "Daylog" "gnome-terminal -e 'vim /home/jon/Neos/daylog.md' --role 'Daylog'" (role =? "Daylog") centeredFloating,
-    NS "Enpass" "/home/jon/.Enpass/runenpass.sh" (title =? "Enpass") centeredFloating,
     NS "Scratch Terminal" "gnome-terminal --role 'Scratch'" (role =? "Scratch") centeredFloating,
     NS "Ping" "gnome-terminal -e 'ping 8.8.8.8' --role 'Ping'" (role =? "Ping") centeredFloating
   ] where role = stringProperty "WM_WINDOW_ROLE"
 centeredFloating = customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3)
 
--- Status bar
-powerline = "python3 /usr/lib/python3.5/site-packages/powerline/bindings/lemonbar/powerline-lemonbar.py -- -f 'Fira Code Medium:size=16' -b -g 1000x28+1560+0"
-lemonbar = "lemonbar -f 'Fira Code Medium:size=16' -b -g '1000x28+0+0'"
-
 -- Layouts
-myLayout = avoidStruts $ smartBorders $ tiled ||| Mirror tiled ||| Full
+myLayout = avoidStruts (tiled ||| Mirror tiled ||| Full)
   where
     tiled   = ResizableTall 1 (2/100) (1/2) []
 
@@ -103,25 +95,16 @@ myManageHook = composeAll
 
 -- Log Output
 
--- TODO: Powerline style bars with some text replacement. The idea is to replace
--- each combination of characters with the appropriate colour/character pairs.
---
--- ex - :::: gets remove entirely as we need no seperator between hidden workspaces
---    - !! gets replaced with a "green background, white foreground" code
---    - ``:: gets replaced with "blue foreground, grey background", "pointer", "grey background, black foreground" (or whatever)
---
-
-myLogHook h = dynamicLogWithPP $ namedScratchpadFilterOutWorkspacePP $ defaultPP
+myLogHook h = workspaceNamesPP xmobarPP
   { ppOutput           = hPutStrLn h
   , ppSort             = getSortByXineramaRule
-  , ppLayout           = hideLogSection
-  , ppCurrent          = wrap "<" ">"
-  , ppVisible          = wrap "[" "]"
+  , ppCurrent          = wrap "<fc=#859900>" "</fc>"
+  , ppVisible          = wrap "<fc=#268bd2>" "</fc>"
   , ppHidden           = wrap "" ""
-  , ppHiddenNoWindows  = hideLogSection
-  , ppWsSep            = " " 
-  , ppSep              = " | " 
-  }
+  , ppTitle            = wrap "<fc=#93a1a1>" "</fc>"
+  , ppSep              = " "
+  , ppLayout           = hideLogSection
+  } >>= dynamicLogWithPP
   where
     hideLogSection s = ""
 
@@ -130,11 +113,6 @@ myStartupHook = do
   startupHook defaultConfig
   -- Make Java apps happier
   setWMName "LG3D"
-  -- Work around struts not being handled on workspace 1
-  takeTopFocus
-  liftIO $ Control.Concurrent.threadDelay 1000000
-  sendMessage ToggleStruts
-  sendMessage ToggleStruts
 
 myEventHook = do
   docksEventHook
