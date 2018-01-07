@@ -28,6 +28,7 @@ Plugin 'hashivim/vim-terraform'
 Plugin 'leafgarland/typescript-vim'
 Plugin 'elixir-editors/vim-elixir'
 Plugin 'easymotion/vim-easymotion'
+Plugin 'benmills/vimux'
 call vundle#end()
 filetype plugin indent on
 
@@ -77,3 +78,17 @@ match ErrorMsg '\s\+$'     " Highlight trailing whitespace
 
 set directory=~/.local/vim/swapfiles//
 set backupdir=~/.local/vim/backups//
+
+" Vimux stuff
+map <Leader>vp :VimuxPromptCommand<CR>
+map <Leader>vl :VimuxRunLastCommand<CR>
+map <Leader>vz :call VimuxZoomRunner()<CR>
+map <Leader>vq :VimuxCloseRunner<CR>
+
+" Send current selection to tmux pane
+function! VimuxSlime()
+  call VimuxSendText(@v)
+  call VimuxSendKeys("Enter")
+endfunction
+
+vmap <Leader>vs "vy :call VimuxSlime()<CR>
