@@ -11,3 +11,11 @@ into your home directory.
 
 `dnf install stow git vim`
 `pip3 install powerline`
+
+### Ubuntu
+
+`apt install -y stow git vim build-essential`
+
+## Recommended Font
+
+I recommend Iosevka - https://github.com/be5invis/Iosevka
