@@ -4,7 +4,7 @@
 alias git='hub'
 alias gs='git status'
 
-export PATH=$HOME/bin:$PATH
+export PATH=$HOME/bin:$HOME/.npm_global/bin:$PATH
 export EDITOR=vim
 export GPG_TTY=$(tty)
 
@@ -20,5 +20,6 @@ source /usr/share/autojump/autojump.sh
 alias t="todo-txt"
 alias todo="todo-txt add"
 alias today="t ls @today"
+alias vitodo="vim ~/.todo-txt/todo.txt"
 
 alias dc="docker-compose"
