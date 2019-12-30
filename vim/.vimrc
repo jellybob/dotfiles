@@ -4,6 +4,7 @@ filetype off
 let mapleader=","
 set shell=/bin/bash
 set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=/usr/local/opt/fzf
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
